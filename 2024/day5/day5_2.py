@@ -6,14 +6,18 @@ with open('updates.txt', 'r') as f:
 
 temp = []
 for line in updates:
-    to_remove = False
-    for item in rules:
-        if set(item).issubset(line):
-            if line.index(item[0]) > line.index(item[1]):
-                to_remove = True
-                break
-
-    if not to_remove:
+    i = 0
+    not_ordered = False
+    while i < len(rules):
+        if set(rules[i]).issubset(line):
+            idx1 = line.index(rules[i][0])
+            idx2 = line.index(rules[i][1])
+            if idx1 > idx2:
+                line[idx1], line[idx2] = line[idx2], line[idx1]
+                i = 0
+                not_ordered = True
+        i += 1
+    if not_ordered:
         temp.append(line)
 
 result = 0
